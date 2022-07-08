@@ -119,7 +119,7 @@ func Test1(t *testing.T) {
 
 	err = s.Replace(n2+1, elem2)
 	if err == nil {
-		t.Fatalf("Replace() no error returned, error expected")
+		t.Fatalf("Replace() no error returned, expected error")
 	}
 
 	err = s.Replace(n2-1, elem2)
