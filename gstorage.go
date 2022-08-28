@@ -297,3 +297,67 @@ func (h *m[T]) ProcFunc(idx int, _ interface{}) (err error) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------------//
+
+func (s *S[T]) FromJSONlist(j []byte) (err error) {
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+
+	s.list = nil
+
+	if len(j) == 0 {
+		return
+	}
+
+	jj := bytes.Split(bytes.TrimSpace(j), []byte{'\n'})
+	if len(jj) == 0 {
+		return
+	}
+
+	u := &u[T]{
+		jj:   jj,
+		list: make([]T, len(jj)),
+	}
+
+	w, err := workers.New(u, workers.Flags(workers.FlagDontUseGetElement))
+	if err != nil {
+		return
+	}
+
+	err = w.Do()
+	if err != nil {
+		return
+	}
+
+	s.list = u.list
+	return
+}
+
+type u[T any] struct {
+	jj   [][]byte
+	list []T
+}
+
+func (h *u[T]) ElementsCount() int {
+	return len(h.jj)
+}
+
+func (h *u[T]) GetElement(idx int) interface{} {
+	return nil
+}
+
+func (h *u[T]) ProcInitFunc(workerID int) {
+}
+
+func (h *u[T]) ProcFinishFunc(workerID int) {
+}
+
+func (h *u[T]) ProcFunc(idx int, _ interface{}) (err error) {
+	err = jsonw.Unmarshal(h.jj[idx], &h.list[idx])
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+//----------------------------------------------------------------------------------------------------------------------------//

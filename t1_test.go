@@ -17,7 +17,7 @@ func Test1(t *testing.T) {
 		y int
 	}
 
-	n := 107
+	n := 100
 
 	s := New[*testT](n)
 
@@ -149,7 +149,7 @@ func TestJSONlist(t *testing.T) {
 		S string
 	}
 
-	n := 2
+	n := 100
 
 	s := New[*testT](n)
 
@@ -183,7 +183,42 @@ func TestJSONlist(t *testing.T) {
 	}
 
 	if !bytes.Equal(j, exp) {
-		t.Errorf("\ngot\n%.100s...\nexpected\n%.100s...", j, exp)
+		t.Errorf("\ngot\n%.1000s...\nexpected\n%.1000s...", j, exp)
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
+func TestFromJSONlist(t *testing.T) {
+	type testT struct {
+		X int
+		S string
+	}
+
+	n := 100
+
+	s := New[*testT](n)
+
+	for i := 0; i < n; i++ {
+		s.Add(&testT{X: i, S: fmt.Sprintf("x=%d", i)})
+	}
+
+	j, err := s.JSONlist()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s2 := New[*testT](0)
+
+	err = s2.FromJSONlist(j)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !reflect.DeepEqual(s2, s) {
+		js, _ := jsonw.Marshal(s.list)
+		js2, _ := jsonw.Marshal(s2.list)
+		t.Errorf("\ngot\n%.1000s...\nexpected\n%.1000s...", js2, js)
 	}
 }
 
