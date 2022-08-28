@@ -1,10 +1,12 @@
 package gstorage
 
 import (
+	"bytes"
 	"fmt"
 	"sync"
 
 	"github.com/alrusov/jsonw"
+	"github.com/alrusov/workers"
 )
 
 //----------------------------------------------------------------------------------------------------------------------------//
@@ -235,6 +237,63 @@ func (s *S[T]) JSON() (j []byte, err error) {
 	defer s.mutex.RUnlock()
 
 	return jsonw.Marshal(s.list)
+}
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
+func (s *S[T]) JSONlist() (j []byte, err error) {
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+
+	if len(s.list) == 0 {
+		return
+	}
+
+	m := &m[T]{
+		list: s.list,
+		j:    make([][]byte, len(s.list)),
+	}
+
+	w, err := workers.New(m, workers.Flags(workers.FlagDontUseGetElement))
+	if err != nil {
+		return
+	}
+
+	err = w.Do()
+	if err != nil {
+		return
+	}
+
+	return append(bytes.Join(m.j, []byte{'\n'}), '\n'), nil
+}
+
+type m[T any] struct {
+	list []T
+	j    [][]byte
+}
+
+func (h *m[T]) ElementsCount() int {
+	return len(h.list)
+}
+
+func (h *m[T]) GetElement(idx int) interface{} {
+	return nil
+}
+
+func (h *m[T]) ProcInitFunc(workerID int) {
+}
+
+func (h *m[T]) ProcFinishFunc(workerID int) {
+}
+
+func (h *m[T]) ProcFunc(idx int, _ interface{}) (err error) {
+	j, err := jsonw.Marshal(h.list[idx])
+	if err != nil {
+		return
+	}
+
+	h.j[idx] = j
+	return
 }
 
 //----------------------------------------------------------------------------------------------------------------------------//

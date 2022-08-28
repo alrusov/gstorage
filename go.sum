@@ -1,6 +1,12 @@
 github.com/alrusov/jsonw v0.1.2 h1:vh1DMBxFvMvZ0PnyOz2dIsB66lsDOh+smCVwuh8tGLU=
 github.com/alrusov/jsonw v0.1.2/go.mod h1:/xuqVEJk/mDSpxV/Qlz2SSBoz6Y46fkjVmpf4DFhbrA=
+github.com/alrusov/misc v0.1.45/go.mod h1:9n/TPhEOs7n3zEKP8R/TK0TIOJGISHOJe5KwKqsCsgg=
 github.com/alrusov/misc v0.1.54 h1:oxBdS1mUNz5kkcK2J0eWzmw53K2GW/Y45TJJQg86O9E=
+github.com/alrusov/misc v0.1.54/go.mod h1:kb9wxXT9lZpuQ+72uRHs3iqnMiTD3NP9wfV+jeOxHoE=
+github.com/alrusov/panic v0.1.14 h1:h3DU1GVIp1ab3PPMAOweyWMPILWyLR8EZnjPIx9SUfo=
+github.com/alrusov/panic v0.1.14/go.mod h1:ALoONDJK6XEbMvLnsenCkVSF1LXQ/gjU7uXi0JX7bak=
+github.com/alrusov/workers v0.1.6 h1:1/gT42KK8aZ9KlJLXs5YWvFi3MTa5iE9aSjaK+cPt+c=
+github.com/alrusov/workers v0.1.6/go.mod h1:3HS9ghhZlZgVtyS6DlLAQHfclV6YZJsY65TML73nip4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

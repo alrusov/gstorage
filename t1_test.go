@@ -1,9 +1,12 @@
 package gstorage
 
 import (
+	"bytes"
 	"fmt"
 	"reflect"
 	"testing"
+
+	"github.com/alrusov/jsonw"
 )
 
 //----------------------------------------------------------------------------------------------------------------------------//
@@ -135,6 +138,52 @@ func Test1(t *testing.T) {
 
 	if !reflect.DeepEqual(elem2, elem) {
 		t.Fatalf("Get(%d): got: %#v, expected: %#v", n2-1, elem2, elem)
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
+func TestJSONlist(t *testing.T) {
+	type testT struct {
+		X int
+		S string
+	}
+
+	n := 2
+
+	s := New[*testT](n)
+
+	for i := 0; i < n; i++ {
+		s.Add(&testT{X: i, S: fmt.Sprintf("x=%d", i)})
+	}
+
+	exp := make([]byte, 0, s.Len()*100)
+	_, err := s.Enumerate(
+		func(idx int, elem *testT) (action EnumeratorAction, err error) {
+			j, err := jsonw.Marshal(elem)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			exp = append(exp, j...)
+			exp = append(exp, '\n')
+
+			action = EnumeratorActionContinue
+			return
+		},
+		true,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	j, err := s.JSONlist()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !bytes.Equal(j, exp) {
+		t.Errorf("\ngot\n%.100s...\nexpected\n%.100s...", j, exp)
 	}
 }
 
