@@ -276,7 +276,7 @@ func (h *m[T]) ElementsCount() int {
 	return len(h.list)
 }
 
-func (h *m[T]) GetElement(idx int) interface{} {
+func (h *m[T]) GetElement(idx int) any {
 	return nil
 }
 
@@ -286,7 +286,7 @@ func (h *m[T]) ProcInitFunc(workerID int) {
 func (h *m[T]) ProcFinishFunc(workerID int) {
 }
 
-func (h *m[T]) ProcFunc(idx int, _ interface{}) (err error) {
+func (h *m[T]) ProcFunc(idx int, _ any) (err error) {
 	j, err := jsonw.Marshal(h.list[idx])
 	if err != nil {
 		return
@@ -341,7 +341,7 @@ func (h *u[T]) ElementsCount() int {
 	return len(h.jj)
 }
 
-func (h *u[T]) GetElement(idx int) interface{} {
+func (h *u[T]) GetElement(idx int) any {
 	return nil
 }
 
@@ -351,7 +351,7 @@ func (h *u[T]) ProcInitFunc(workerID int) {
 func (h *u[T]) ProcFinishFunc(workerID int) {
 }
 
-func (h *u[T]) ProcFunc(idx int, _ interface{}) (err error) {
+func (h *u[T]) ProcFunc(idx int, _ any) (err error) {
 	err = jsonw.Unmarshal(h.jj[idx], &h.list[idx])
 	if err != nil {
 		return
