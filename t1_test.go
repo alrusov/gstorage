@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"sync"
 	"testing"
 
 	"github.com/alrusov/jsonw"
@@ -219,6 +220,66 @@ func TestFromJSONlist(t *testing.T) {
 		js, _ := jsonw.Marshal(s.list)
 		js2, _ := jsonw.Marshal(s2.list)
 		t.Errorf("\ngot\n%.1000s...\nexpected\n%.1000s...", js2, js)
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
+func TestMulti(t *testing.T) {
+	type testT struct {
+		X int
+	}
+
+	s := New[*testT](0)
+
+	n := 1000000
+
+	wb := new(sync.WaitGroup)
+	wb.Add(n)
+
+	for i := 0; i < n; i++ {
+		i := i
+		go func() {
+			s.Add(&testT{X: i})
+			wb.Done()
+		}()
+	}
+
+	wb.Wait()
+
+	if s.Len() != n {
+		t.Fatalf("length is %d, expected %d", s.Len(), n)
+	}
+
+	m := make(map[int]bool, n)
+	for i := 0; i < n; i++ {
+		m[i] = true
+	}
+
+	for i := 0; i < n; i++ {
+		v, exists := s.Get(i)
+		if !exists {
+			t.Errorf("value with index %d not found", i)
+			continue
+		}
+
+		if v == nil {
+			t.Errorf("nil value")
+			continue
+		}
+
+		b, exists := m[v.X]
+		if !exists {
+			t.Errorf("illegal value %d", v.X)
+			continue
+		}
+
+		if !b {
+			t.Errorf("duplicated value %d", v.X)
+			continue
+		}
+
+		m[v.X] = false
 	}
 }
 

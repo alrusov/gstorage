@@ -1,5 +1,5 @@
-github.com/alrusov/jsonw v0.1.2 h1:vh1DMBxFvMvZ0PnyOz2dIsB66lsDOh+smCVwuh8tGLU=
-github.com/alrusov/jsonw v0.1.2/go.mod h1:/xuqVEJk/mDSpxV/Qlz2SSBoz6Y46fkjVmpf4DFhbrA=
+github.com/alrusov/jsonw v0.1.3 h1:662GZ/2/Ym5hN4z0ut6EbvmdnXfaIK7vSRslmnFpGXw=
+github.com/alrusov/jsonw v0.1.3/go.mod h1:310ODYzX2wl26sdPfdnRZ9R4XW+5lYzZZVCcU/5K2Y4=
 github.com/alrusov/misc v0.1.45/go.mod h1:9n/TPhEOs7n3zEKP8R/TK0TIOJGISHOJe5KwKqsCsgg=
 github.com/alrusov/misc v1.0.65 h1:OQFkS/cCc/bYxBE61hFPzRFGcuZlb1NSZQMOUpBuuRY=
 github.com/alrusov/misc v1.0.65/go.mod h1:vywA6CgYL87p+qxLP+FDuSRrNL6ZvJ0r+uDixw9rcmk=

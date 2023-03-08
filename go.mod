@@ -1,9 +1,9 @@
 module github.com/alrusov/gstorage
 
-go 1.19
+go 1.20
 
 require (
-	github.com/alrusov/jsonw v0.1.2
+	github.com/alrusov/jsonw v0.1.3
 	github.com/alrusov/workers v0.1.7
 )
 
