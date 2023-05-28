@@ -175,8 +175,6 @@ func TestJSONlist(t *testing.T) {
 		true,
 	)
 
-	exp = exp[:len(exp)-1] // remove last \n
-
 	if err != nil {
 		t.Fatal(err)
 	}

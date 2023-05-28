@@ -264,7 +264,7 @@ func (s *S[T]) JSONlist() (j []byte, err error) {
 		return
 	}
 
-	return bytes.Join(m.j, []byte{'\n'}), nil
+	return append(bytes.Join(m.j, []byte{'\n'}), '\n'), nil
 }
 
 type m[T any] struct {
