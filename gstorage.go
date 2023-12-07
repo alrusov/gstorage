@@ -58,8 +58,8 @@ func (s *S[T]) RUnlock() {
 //----------------------------------------------------------------------------------------------------------------------------//
 
 func (s *S[T]) Reset(capacity int) {
-	s.mutex.RLock()
-	defer s.mutex.RUnlock()
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 
 	s.list = make([]T, 0, capacity)
 }
@@ -118,8 +118,8 @@ func (s *S[T]) Get(idx int) (elem T, exists bool) {
 //----------------------------------------------------------------------------------------------------------------------------//
 
 func (s *S[T]) GetAll() []T {
-	s.mutex.Lock()
-	defer s.mutex.Unlock()
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
 
 	return s.list
 }
@@ -299,8 +299,8 @@ func (h *m[T]) ProcFunc(idx int, _ any) (err error) {
 //----------------------------------------------------------------------------------------------------------------------------//
 
 func (s *S[T]) FromJSONlist(j []byte) (err error) {
-	s.mutex.RLock()
-	defer s.mutex.RUnlock()
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 
 	s.list = nil
 

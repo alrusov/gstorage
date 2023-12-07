@@ -1,6 +1,6 @@
 module github.com/alrusov/gstorage
 
-go 1.20
+go 1.21.4
 
 require (
 	github.com/alrusov/jsonw v0.1.3
